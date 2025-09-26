@@ -1,3 +1,3 @@
-# Community Governance Building
+# Governance Building
 
-Together, we hold the keys to Near City!
+Together, we support, represent, and manage our community!

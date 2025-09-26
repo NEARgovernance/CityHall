@@ -50,9 +50,9 @@ export default function Header() {
           )}
         </Button>
 
-        <div className="flex items-center gap-3 sm:gap-6">
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* Health Check - Hidden on small screens */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* <div className="hidden sm:flex items-center gap-3">
             <div
               className={`h-2.5 w-2.5 rounded-full ${
                 healthCheck.data ? "bg-emerald-500" : "bg-red-500"
@@ -65,16 +65,16 @@ export default function Header() {
                 ? "API Connected"
                 : "API Disconnected"}
             </span>
-          </div>
+          </div> */}
 
           {/* Health Check Indicator - Mobile only */}
-          <div className="sm:hidden">
+          {/* <div className="sm:hidden">
             <div
               className={`h-2.5 w-2.5 rounded-full ${
                 healthCheck.data ? "bg-emerald-500" : "bg-red-500"
               }`}
             />
-          </div>
+          </div> */}
 
           <ModeToggle />
           <UserMenu />
@@ -98,7 +98,7 @@ export default function Header() {
               );
             })}
             {/* Health Check in Mobile Menu */}
-            <div className="flex items-center gap-3 py-2">
+            {/* <div className="flex items-center gap-3 py-2">
               <div
                 className={`h-2.5 w-2.5 rounded-full ${
                   healthCheck.data ? "bg-emerald-500" : "bg-red-500"
@@ -111,7 +111,7 @@ export default function Header() {
                   ? "API Connected"
                   : "API Disconnected"}
               </span>
-            </div>
+            </div> */}
           </nav>
         </div>
       )}

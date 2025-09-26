@@ -24,7 +24,7 @@ function RouteComponent() {
       {/* Header Section */}
       <div className="mb-6 sm:mb-8">
         <p className="text-base sm:text-lg text-muted-foreground">
-          Welcome back, {session?.user.name}
+          Welcome back, {session?.user.name}!
         </p>
       </div>
 

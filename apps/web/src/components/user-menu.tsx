@@ -11,7 +11,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
-import { NearProfile } from "./near-profile";
+import { User } from "lucide-react";
 
 interface Profile {
   name?: string;
@@ -38,7 +38,7 @@ export default function UserMenu() {
       try {
         const { data: sessionData } = await authClient.getSession();
         setSession(sessionData);
-        
+
         if (sessionData) {
           try {
             const { data: response } = await authClient.near.getProfile();
@@ -60,7 +60,7 @@ export default function UserMenu() {
   }, []);
 
   if (isLoading) {
-    return <Skeleton className="h-9 w-24" />;
+    return <Skeleton className="h-9 w-32" />;
   }
 
   if (!session) {
@@ -71,66 +71,76 @@ export default function UserMenu() {
     );
   }
 
-  const avatarUrl =
-    nearProfile?.image?.url || nearProfile?.image?.ipfs_cid
-      ? `https://ipfs.near.social/ipfs/${nearProfile.image.ipfs_cid}`
-      : null;
+  // Get avatar URL
+  const avatarUrl = nearProfile?.image?.ipfs_cid
+    ? `https://ipfs.near.social/ipfs/${nearProfile.image.ipfs_cid}`
+    : nearProfile?.image?.url || null;
+
+  // Get account ID from session
+  const accountId = session.user.name || session.user.email || "Unknown";
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex items-center space-x-2 min-h-9 touch-manipulation">
-          <NearProfile variant="badge" showAvatar={true} showName={true} />
+        <Button
+          variant="outline"
+          className="flex items-center gap-2 min-h-9 px-3"
+        >
+          {/* Avatar */}
+          <div className="h-5 w-5 rounded-full overflow-hidden bg-muted flex items-center justify-center flex-shrink-0">
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={accountId}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <User className="h-3 w-3 text-muted-foreground" />
+            )}
+          </div>
+
+          {/* Account ID */}
+          <span className="text-sm font-medium truncate max-w-[120px]">
+            {accountId}
+          </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-card w-56 mr-4">
-        <DropdownMenuLabel className="py-3">My Account</DropdownMenuLabel>
+      <DropdownMenuContent className="w-56 mr-4">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="py-3 text-sm">{session.user.name}</DropdownMenuItem>
-        {nearProfile && (
-          <DropdownMenuItem className="py-3">
-            <div className="flex items-center space-x-2">
-              {avatarUrl && (
-                <img
-                  src={avatarUrl}
-                  alt="NEAR Profile"
-                  className="h-4 w-4 rounded-full object-cover"
-                />
-              )}
-              <span className="text-xs text-muted-foreground">
-                NEAR: {nearProfile.name || "Connected"}
-              </span>
-            </div>
-          </DropdownMenuItem>
-        )}
-        <DropdownMenuItem asChild>
-          <Button
-            variant="destructive"
-            className="w-full min-h-10 touch-manipulation my-2"
-            onClick={async () => {
-              try {
-                // Sign out from auth session
-                await authClient.signOut({
-                  fetchOptions: {
-                    onSuccess: async () => {
-                      await authClient.near.disconnect(); // TODO: this could be moved to signOut
-                      navigate({
-                        to: "/",
-                      });
-                    },
+
+        {/* Account Info */}
+        <DropdownMenuItem className="flex flex-col items-start gap-1 py-3">
+          <span className="text-sm font-medium">{accountId}</span>
+          {nearProfile?.name && (
+            <span className="text-xs text-muted-foreground">
+              {nearProfile.name}
+            </span>
+          )}
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        {/* Sign Out */}
+        <DropdownMenuItem
+          className="text-destructive focus:text-destructive cursor-pointer"
+          onClick={async () => {
+            try {
+              await authClient.signOut({
+                fetchOptions: {
+                  onSuccess: async () => {
+                    await authClient.near.disconnect();
+                    navigate({ to: "/" });
                   },
-                });
-              } catch (error) {
-                console.error("Sign out error:", error);
-                // Still navigate even if wallet disconnect fails
-                navigate({
-                  to: "/",
-                });
-              }
-            }}
-          >
-            Sign Out
-          </Button>
+                },
+              });
+            } catch (error) {
+              console.error("Sign out error:", error);
+              navigate({ to: "/" });
+            }
+          }}
+        >
+          Sign Out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
