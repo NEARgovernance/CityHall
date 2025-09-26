@@ -124,7 +124,7 @@ export function NearProfile({
         className={`w-full bg-card rounded-lg border overflow-hidden ${className}`}
       >
         {/* Background Image Header */}
-        <div className="relative h-32 bg-gradient-to-r from-blue-500 to-purple-600">
+        <div className="relative h-32 bg-black">
           {backgroundUrl && (
             <img
               src={backgroundUrl}
@@ -137,7 +137,7 @@ export function NearProfile({
           )}
           {/* Avatar positioned over background */}
           <div className="absolute -bottom-6 left-6">
-            <div className="h-12 w-12 rounded-full overflow-hidden bg-background border-4 border-background">
+            <div className="h-12 w-12 rounded-full overflow-hidden bg-background border">
               {avatarUrl ? (
                 <img
                   src={avatarUrl}

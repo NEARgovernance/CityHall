@@ -1,6 +1,7 @@
 import { NearProfile } from "@/components/near-profile";
 import { Join } from "@/components/join";
 import { Proposals } from "@/components/proposals";
+import { Members } from "@/components/members";
 import { useTRPC } from "@/utils/trpc";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -48,8 +49,7 @@ function RouteComponent() {
           </div> */}
 
           {/* DAO Card */}
-          <Join />
-          <Proposals />
+          <Members />
         </div>
       </div>
     </div>
