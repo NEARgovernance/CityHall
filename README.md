@@ -1,3 +1,3 @@
 # Community Governance Building
 
-Let's build Near City together!
+Together, we hold the keys to Near City!
