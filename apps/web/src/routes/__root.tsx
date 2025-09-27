@@ -28,12 +28,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         content: "cityhall is a web application",
       },
     ],
-    links: [
-      {
-        rel: "icon",
-        href: "/favicon.ico",
-      },
-    ],
   }),
 });
 
