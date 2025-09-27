@@ -15,7 +15,7 @@ app.use(logger());
 app.use(
   "/*",
   cors({
-    origin: process.env.CORS_ORIGIN?.split(",") || ["*"],
+    origin: process.env.CORS_ORIGIN?.split(",") || ["http://localhost:3001"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -36,12 +36,14 @@ app.use(
 
 try {
   console.log("Migrating database...");
-  migrate(db, {
+  await migrate(db, {
     migrationsFolder: `${process.cwd()}/migrations`,
   });
 } catch (error) {
-  console.error(error);
+  console.error("Migration error:", error);
 }
 
+const port = process.env.PORT || 8080;
+console.log(`Started server: http://localhost:${port}`);
 
 export default app;
